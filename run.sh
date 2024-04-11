@@ -1,0 +1,1 @@
+python3 odoo-bin -d rd-demo --addons-path addons,custom-addons -s -c odoo-labs.conf -u real_estate_ads
