@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import fields, models, api
 
 class Property(models.Model):
     _name = "estate.property"
@@ -13,7 +13,8 @@ class Property(models.Model):
     expected_price = fields.Float(string="Expected Price")
     selling_price = fields.Float(string="Selling Price")
     best_offer = fields.Integer(string="Best Offer")
-    bedrooms = fields.Integer(string="Living Area (sqm)")
+    bedrooms = fields.Integer(string="Bedrooms")
+    living_area = fields.Integer(string="Living Area (sqm)")
     facades = fields.Integer(string = "Facades")
     garage = fields.Boolean(string = "Garage", default = False)
     garden = fields.Boolean(string = "Garden", default = False)
@@ -22,6 +23,15 @@ class Property(models.Model):
         [('north', 'North'), ('south', 'South'), ('west', 'West'), ('east', 'East')],
         string = "Garden Orientation", default = 'north')
     offer_ids = fields.One2many('estate.property.offer', 'property_id', string="Offers")
+    sales_id = fields.Many2one('res.users', string="Salesman")
+    buyer_id = fields.Many2one('res.partner', string="Buyer", domain=[('is_company', '=', True)])
+    phone = fields.Char(string="Phone", related='buyer_id.phone')
+
+    # Compute properties
+    @api.onchange('living_area', 'garden_area')
+    def _computer_total_area(self):
+        self.total_area = self.living_area + self.garden_area
+    total_area = fields.Integer(string="Total Area")
 
 
 class PropertyType(models.Model):

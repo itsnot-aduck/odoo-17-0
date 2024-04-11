@@ -15,7 +15,12 @@
         "views/property_view.xml",
         "views/property_tag_view.xml",
         "views/menu_items.xml",
+
+        # Datas files
+        # 'data/property_type.xml'
+        'data/estate.property.type.csv',
     ],
-    "depends": [],
+    
+    "depends": ["base"],
     "category": "Sales"
 }
